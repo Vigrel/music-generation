@@ -1,0 +1,7 @@
+Learning rate: 0.001 
+Batchnorm momentoum: 0.9f
+Batch size: 350 
+Offsets: 4 
+Dropout rate: 0.1 
+Number of songs: 1002 
+optimizer: RMSprop 
