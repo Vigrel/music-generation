@@ -1,1 +1,6 @@
 .ipynb_checkpoints/
+./Dataset/
+./OnlyPiano/
+./OnlyPiano_TPB128/
+./TestDataset/
+*.mid
