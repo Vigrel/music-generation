@@ -1,0 +1,8 @@
+.ipynb_checkpoints/
+__pycache__/
+./Dataset/
+./OnlyPiano/
+./OnlyPiano_TPB128/
+./TestDataset/
+*.mid
+*.npy
