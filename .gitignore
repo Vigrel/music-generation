@@ -1,8 +1,11 @@
 .ipynb_checkpoints/
 __pycache__/
-./Dataset/
-./OnlyPiano/
-./OnlyPiano_TPB128/
-./TestDataset/
+/Dataset
+/DatasetBach
+/HistoryAuto
+/HistoryVAAuto
+/logs
+/env
 *.mid
 *.npy
+*.h5

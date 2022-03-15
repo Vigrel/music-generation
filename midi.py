@@ -85,10 +85,10 @@ def samples_to_midi(samples, fname, ticks_per_sample, thresh=0.5):
 				note = x + (128 - num_notes)/2
 				if sample[y,x] >= thresh and (y == 0 or sample[y-1,x] < thresh):
 					delta_time = abs_time - last_time
-					track.append(Message('note_on', note=int(note), velocity=127, time=int(delta_time)))
+					track.append(Message('note_on', note=int(note), velocity=127, time=int(delta_time + 8)))
 					last_time = abs_time
 				if sample[y,x] >= thresh and (y == sample.shape[0]-1 or sample[y+1,x] < thresh):
 					delta_time = abs_time - last_time
-					track.append(Message('note_off', note=int(note), velocity=127, time=int(delta_time)))
+					track.append(Message('note_off', note=int(note), velocity=127, time=int(delta_time + 8)))
 					last_time = abs_time
 	mid.save(fname)
