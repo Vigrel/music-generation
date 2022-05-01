@@ -85,31 +85,28 @@ def sample2midi(path, sample, resolution):
 
 def erase_notes(sample, erase_pctg, num_notes):
     erased_music = sample.copy()
-    num_played_notes = len(np.where(erased_music == 1)[0])
-    all_notes = []
-    mask = np.zeros((sample.shape[0] * sample.shape[1], num_notes))
+    all_notes = np.stack([np.where(erased_music == 1)[0], np.where(erased_music == 1)[1]], axis=1)
+    mask = np.zeros((erased_music.shape[0],num_notes))
 
-    for i, l in zip(np.where(erased_music == 1)[0], np.where(erased_music == 1)[1]):
-        all_notes.append((i,l))
+    len_notes = 0
+    start_note = 0
 
-    for i in range(int(num_played_notes*erase_pctg)):
-        position = random.choice(all_notes)
-        lista = list(np.where(sample[:,position[1]] == 1)[0])
-        note_init = note_end = lista.index(position[0])
+    dic = {}
 
-        try:
-            while lista[note_init] - lista[note_init - 1] == 1:
-                note_init = note_init - 1
-        except:
-            pass
-        
-        try:
-            while lista[note_end + 1] - lista[note_end] == 1:
-                note_end = note_end + 1
-        except:
-            pass
-        
-        erased_music[lista[note_init]:lista[note_end],position[1]] = 0
-        mask[lista[note_init]:lista[note_end],position[1]] = 1
+    for i in range(1, len(all_notes[:,1])):
+            if all_notes[:,1][i] != all_notes[:,1][i - 1]:
+                    try: 
+                            dic[all_notes[i-1][1]].append([start_note, all_notes[i][0]])
+                    except:
+                            dic[all_notes[i-1][1]] = []
+                            dic[all_notes[i-1][1]].append([start_note, all_notes[i][0]])
+                    start_note = all_notes[i][0]
+                    len_notes+=1
 
+    for i in range(int(len_notes * erase_pctg)):
+            note = random.choice(list(dic.keys()))
+            time = random.randint(0, len(dic[note]) - 1)
+            erased_music[dic[note][time][0]: dic[note][time][1] - 1, :] = 0
+            mask[dic[note][time][0]: dic[note][time][1] - 1, :] = 1
+    
     return erased_music.swapaxes(1,0), mask.swapaxes(1,0)
