@@ -66,9 +66,9 @@ def save_samples(dataset, samples_measure):
     np.save("pypianorollSamples.npy", np.array(samples, dtype=np.uint8))
 
 def sample2midi(path, sample, resolution):
-    music = sample.reshape(2048,72)
+    music = sample.reshape(512,72)
     
-    all_notes = np.zeros((2048,128), dtype=np.uint8)
+    all_notes = np.zeros((512,128), dtype=np.uint8)
     all_notes[:, 24:96] = music
 
     pypianoroll.write(
@@ -109,4 +109,4 @@ def erase_notes(sample, erase_pctg, num_notes):
             erased_music[dic[note][time][0]: dic[note][time][1] - 1, :] = 0
             mask[dic[note][time][0]: dic[note][time][1] - 1, :] = 1
     
-    return erased_music.swapaxes(1,0), mask.swapaxes(1,0)
+    return erased_music, mask
